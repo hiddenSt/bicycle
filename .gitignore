@@ -1,6 +1,6 @@
 # IDE's
-./.idea
-./.vscode
+.idea/
+.vscode/
 
 # Build
 build
