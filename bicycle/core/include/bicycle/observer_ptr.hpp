@@ -1,10 +1,12 @@
 #pragma once
 
+#include <core_export.h>
+
 namespace bicycle::core {
 
 /// Non-owning wrapper arround raw pointer.
 template <typename T>
-class ObserverPtr {
+class CORE_EXPORT ObserverPtr {
  public:
   /// Constructs observer with nullptr watched.
   ObserverPtr() = default;

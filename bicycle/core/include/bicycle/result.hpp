@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core_export.h>
+
 #include <bicycle/contract.hpp>
 #include <memory>
 #include <type_traits>
@@ -10,7 +12,7 @@ namespace bicycle::core {
 /// It either holds a value or an error. If container holds the value, then it methods is TODO:
 /// Inspired by [this article]()
 template <typename T, typename Error>
-class [[nodiscard]] Result {
+class [[nodiscard]] CORE_EXPORT Result {
  public:
   static_assert(!std::is_reference_v<T>, "aaa");
 
