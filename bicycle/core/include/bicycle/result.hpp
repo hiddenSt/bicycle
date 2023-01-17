@@ -1,9 +1,10 @@
 #pragma once
 
+#include <bicycle/contract.hpp>
 #include <bicycle_export.hpp>
 
-#include <bicycle/contract.hpp>
 #include <memory>
+#include <system_error>
 #include <type_traits>
 
 namespace bicycle::core {
@@ -11,10 +12,11 @@ namespace bicycle::core {
 /// \brief Container which represents the result of operation call.
 /// It either holds a value or an error. If container holds the value, then it methods is TODO:
 /// Inspired by [this article]()
-template <typename T, typename Error>
+template <typename T, typename Error = std::error_code>
 class [[nodiscard]] BICYCLE_EXPORT Result {
  public:
-  static_assert(!std::is_reference_v<T>, "aaa");
+  static_assert(!std::is_reference_v<T>, "T can not be a reference");
+  static_assert(!std::is_reference_v<Error>, "Error can not be a reference");
 
   /// Creates the result containing an error.
   template <typename... Args>
