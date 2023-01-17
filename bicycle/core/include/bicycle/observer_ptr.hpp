@@ -1,6 +1,6 @@
 #pragma once
 
-namespace bicycle {
+namespace bicycle::core {
 
 /// Non-owning wrapper arround raw pointer.
 template <typename T>
@@ -10,13 +10,13 @@ class ObserverPtr {
   ObserverPtr() = default;
 
   /// Constructs observer with \a watched object.
-  explicit ObserverPtr(T* watched) : watched_(ptr) noexcept {}
+  explicit ObserverPtr(T* watched) noexcept : watched_(watched) {}
 
   ///
-  ObserverPtr(const ObserverPtr& other) : watched_(other.watched_) noexcept {}
+  ObserverPtr(const ObserverPtr& other) noexcept : watched_(other.watched_) {}
 
   ///
-  ObserverPtr(ObserverPtr&& other) : watched_(other.watched_) noexcept { other.watched_ = nullptr; }
+  ObserverPtr(ObserverPtr&& other) noexcept : watched_(other.watched_) { other.watched_ = nullptr; }
 
   ///
   ObserverPtr& operator=(const ObserverPtr& other) noexcept {
@@ -41,7 +41,7 @@ class ObserverPtr {
   T& operator*() { return *watched_; }
 
   ///
-  const T& operator*() { return *watched_; }
+  const T& operator*() const noexcept { return *watched_; }
 
   /// Returns \c true if instance has no watched. (watched is \c nullptr), false otherwise.
   bool IsEmpty() const noexcept { return watched_ == nullptr; }
@@ -57,4 +57,4 @@ class ObserverPtr {
   T* watched_ = nullptr;
 };
 
-}  // namespace bicycle
+}  // namespace bicycle::core

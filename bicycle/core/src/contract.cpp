@@ -1,9 +1,8 @@
 #include <bicycle/contract.hpp>
-
 #include <cstdlib>
 #include <iostream>
 
-namespace bicycle::detail {
+namespace bicycle::core::detail {
 
 [[noreturn]] void Panic(std::source_location where, const std::string& error) {
   std::cerr << error << " (file=" << where.file_name() << ", function=" << where.function_name()
@@ -11,4 +10,4 @@ namespace bicycle::detail {
   std::abort();
 }
 
-}  // namespace bicycle::detail
+}  // namespace bicycle::core::detail

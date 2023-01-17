@@ -3,11 +3,11 @@
 #include <source_location>
 #include <string>
 
-namespace bicycle::detail {
+namespace bicycle::core::detail {
 
 [[noreturn]] void Panic(std::source_location where, const std::string& error);
 
-}  // namespace bicycle::detail
+}  // namespace bicycle::core::detail
 
 #if defined(__clang__) || defined(__GNUC__)
 #define BICYCLE_LIKELY(x) __builtin_expect(!!(x), 1)
@@ -16,9 +16,9 @@ namespace bicycle::detail {
 
 /// Causes program abnormal termination.
 /// Before termination prints the current source location to stderr.
-#define BICYCLE_PANIC(error)                                          \
-  do {                                                                \
-    ::bicycle::detail::Panic(std::source_location::current(), error); \
+#define BICYCLE_PANIC(error)                                                \
+  do {                                                                      \
+    ::bicycle::core::detail::Panic(std::source_location::current(), error); \
   } while (false)
 
 #define BICYCLE_CONTRACT_CHECK(type, cond) \
