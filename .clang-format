@@ -1,5 +1,7 @@
 ---
 BasedOnStyle: Google
+Language: Cpp
+Standard: c++20
 DerivePointerAlignment: false
 PointerAlignment: Left
 ColumnLimit: 120
