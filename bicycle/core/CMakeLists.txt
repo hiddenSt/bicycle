@@ -1,7 +1,9 @@
 add_library(core)
 add_library(bicycle::core ALIAS core)
 
-generate_export_header(core)
+generate_export_header(core
+    EXPORT_MACRO_NAME BICYCLE_EXPORT
+    EXPORT_FILE_NAME bicycle_export.hpp)
 
 target_sources(core
     PRIVATE

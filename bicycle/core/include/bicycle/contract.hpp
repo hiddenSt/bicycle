@@ -1,13 +1,13 @@
 #pragma once
 
-#include <core_export.h>
+#include <bicycle_export.hpp>
 
 #include <source_location>
 #include <string>
 
 namespace bicycle::core::detail {
 
-[[noreturn]] void CORE_EXPORT Panic(std::source_location where, const std::string& error);
+[[noreturn]] void BICYCLE_EXPORT Panic(std::source_location where, const std::string& error);
 
 }  // namespace bicycle::core::detail
 
