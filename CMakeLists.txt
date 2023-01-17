@@ -13,7 +13,8 @@ include(CTest)
 
 add_subdirectory(bicycle)
 
-if (TESTING_ENABLED)
+if (BUILD_TESTING)
+  add_subdirectory(third_party)
   add_subdirectory(test)
   add_subdirectory(fuzz_test)
 endif()
