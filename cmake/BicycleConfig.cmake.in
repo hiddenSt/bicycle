@@ -1,0 +1,36 @@
+@PACKAGE_INIT@
+
+set(type "")
+
+if (DEFINED BICYCLE_SHARED_LIBS)
+  if (BICYCLE_SHARED_LIBS)
+    set(type "shared")
+  else()
+    set(type "static")
+  endif()
+else()
+  if (BUILD_SHARED_LIBS)
+    set(type "shared")
+  else()
+    set(type "static")
+  endif()
+endif()
+
+if (${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
+  set(components ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
+else()
+  set(components core)
+endif()
+
+foreach(comp IN LISTS components)
+  if (${CMAKE_FIND_PACKAGE_NAME}_FIND_REQUIRED_${comp} AND
+      NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/bicycle-${comp}-${type}-targets.cmake)
+    set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE "")
+    set(${CMAKE_FIND_PACKAGE_NAME}_FOUND false)
+    return()
+  endif()
+endforeach()
+
+foreach(comp IN LISTS components)
+  include(${CMAKE_CURRENT_LIST_DIR}/bicycle-${comp}-${type}-targets.cmake OPTIONAL)
+endforeach()
