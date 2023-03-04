@@ -1,13 +1,13 @@
 #pragma once
 
-#include <bicycle_export.hpp>
+#include <bicycle/core/export.h>
 
-#include <source_location>
+//  #include <source_location>
 #include <string>
 
 namespace bicycle::core::detail {
 
-[[noreturn]] void BICYCLE_EXPORT Panic(std::source_location where, const std::string& error);
+[[noreturn]] void BICYCLE_EXPORT Panic(/*std::source_location where,*/ const std::string& error);
 
 }  // namespace bicycle::core::detail
 
@@ -16,11 +16,11 @@ namespace bicycle::core::detail {
 #define BICYCLE_UNLIKELY(x) __builtin_expect(!!(x), 0)
 #endif
 
-/// Causes program abnormal termination.
-/// Before termination prints the current source location to stderr.
-#define BICYCLE_PANIC(error)                                                \
-  do {                                                                      \
-    ::bicycle::core::detail::Panic(std::source_location::current(), error); \
+/// \brief Causes program abnormal termination.
+/// Before the termination prints the current source location to stderr.
+#define BICYCLE_PANIC(error)                                                    \
+  do {                                                                          \
+    ::bicycle::core::detail::Panic(/*std::source_location::current(),*/ error); \
   } while (false)
 
 #define BICYCLE_CONTRACT_CHECK(type, cond) \

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <bicycle_export.hpp>
-#include <bicycle/contract.hpp>
+#include <bicycle/core/export.h>
+#include <bicycle/core/contract.hpp>
 
 namespace bicycle::core {
 
@@ -9,46 +9,44 @@ namespace bicycle::core {
 template <typename T>
 class BICYCLE_EXPORT ObserverPtr {
  public:
-  /// Constructs observer with nullptr watched.
+  /// Constructs observer with \c nullptr watched.
   ObserverPtr() noexcept = default;
 
   /// Constructs observer with \a watched object.
   explicit ObserverPtr(T* watched) noexcept : watched_(watched) {}
 
-  /// Copy constructor.
+  /// Only copies \a other watched pointer.
   ObserverPtr(const ObserverPtr& other) noexcept : watched_(other.watched_) {}
 
-  /// Move constructor. After call, \a other becomes empty.
+  /// \brief Moves \a other watched pointer.
+  /// After call \a other becomes empty, i. e. \a other watched pointer becomes \c nullptr.
   ObserverPtr(ObserverPtr&& other) noexcept : watched_(other.watched_) { other.watched_ = nullptr; }
 
-  /// Copy assignment operator.
+  /// Copies \a other watched pointer.
   ObserverPtr& operator=(const ObserverPtr& other) noexcept {
     watched_ = other.watched_;
     return *this;
   }
 
-  /// Move assignment operator. After call \a other becomes empty.
+  /// \brief Moves \a other watched pointer.
+  /// After call \a other becomes empty, i. e. \a other's watched pointer becomes \c nullptr.
   ObserverPtr& operator=(ObserverPtr&& other) noexcept {
     watched_ = other.watched_;
     other.watched_ = nullptr;
     return *this;
   }
-  
+
   /// Destructor does nothing.
   ~ObserverPtr() = default;
-  
-  /// Returns a mutable pointer to the wrapped object.
-  T* Get() noexcept {
-    return watched_;
-  }
-  
-  /// Returns an immutable pointer to the wrapped object.
-  const T* Get() const noexcept {
-    return watched_;
-  }
 
   /// Returns a mutable pointer to the watched object.
-  T* operator->() noexcept { 
+  T* Get() noexcept { return watched_; }
+
+  /// Returns an immutable pointer to the watched object.
+  const T* Get() const noexcept { return watched_; }
+
+  /// Returns a mutable pointer to the watched object.
+  T* operator->() noexcept {
     BICYCLE_EXPECTS(!IsEmpty());
     return Get();
   }
@@ -71,22 +69,28 @@ class BICYCLE_EXPORT ObserverPtr {
     return *watched_;
   }
 
-  /// Returns \a true if object has no watched entity, \a false otherwise.
+  /// Returns \c true if object has no watched object, \c false otherwise.
   [[nodiscard]] bool IsEmpty() const noexcept { return watched_ == nullptr; }
-  
-  /// Releases the watched object and returns mutable pointer to it.
+
+  /// Releases the watched object and returns a mutable pointer to it.
   T* Release() noexcept {
     T* released = watched_;
     watched_ = nullptr;
 
     return released;
   }
-  
-  /// Returns \a true if the \a lhs watched object pointer is equal to the \a rhs watched object pointer, \a false otherwise.
-  friend bool operator==(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ == rhs.watched_; }
-  
-  /// Returns \a true if the \a lhs watched object pointer is not equal to the  \a rhs watched object pointer, \a false otherwise.
-  friend bool operator==(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ != rhs.watched_; }
+
+  /// Returns \c true if the \a lhs watched object pointer is equal to the \a rhs watched object pointer,
+  /// returns \c false otherwise.
+  friend bool operator==(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
+    return lhs.watched_ == rhs.watched_;
+  }
+
+  /// Returns \c true if the \a lhs watched object pointer is not equal to the  \a rhs watched object pointer, \c false
+  /// otherwise.
+  friend bool operator!=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
+    return lhs.watched_ != rhs.watched_;
+  }
 
  private:
   T* watched_ = nullptr;
