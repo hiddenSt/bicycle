@@ -2,13 +2,16 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <mutex>
 
 namespace bicycle::core::detail {
 
+static std::mutex panic_stderr_lock = {};
+
 [[noreturn]] void Panic(std::source_location where, const std::string& error) {
-  std::cerr << error << " (file=" << where.file_name() << ", function=" << where.function_name()
-            << ", line=" << where.line() << ", column=" << where.column()
-            << ")." << std::endl;
+  std::lock_guard lock{panic_stderr_lock};
+  std::cerr << "Panicked at '" << where.file_name() << "' " << where.function_name() << "[" << where.line()
+            << "]:" << error << std::endl;
   std::abort();
 }
 

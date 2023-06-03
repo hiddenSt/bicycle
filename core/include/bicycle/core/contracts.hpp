@@ -1,9 +1,9 @@
 #pragma once
 
-#include <bicycle/core/export.h>
-
 #include <source_location>
 #include <string>
+
+#include <bicycle/core/export.h>
 
 namespace bicycle::core::detail {
 

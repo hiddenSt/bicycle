@@ -15,10 +15,10 @@ class BICYCLE_EXPORT ObserverPtr {
   /// Constructs observer with \a watched object.
   explicit ObserverPtr(T* watched) noexcept : watched_(watched) {}
 
-  /// Only copies \a other watched pointer.
+  /// Copies \a other watched pointer.
   ObserverPtr(const ObserverPtr& other) noexcept : watched_(other.watched_) {}
 
-  /// \brief Moves \a other watched pointer.
+  /// Moves \a other watched pointer.
   /// After call \a other becomes empty, i. e. \a other watched pointer becomes \c nullptr.
   ObserverPtr(ObserverPtr&& other) noexcept : watched_(other.watched_) { other.watched_ = nullptr; }
 
@@ -28,7 +28,7 @@ class BICYCLE_EXPORT ObserverPtr {
     return *this;
   }
 
-  /// \brief Moves \a other watched pointer.
+  /// Moves \a other watched pointer.
   /// After call \a other becomes empty, i. e. \a other's watched pointer becomes \c nullptr.
   ObserverPtr& operator=(ObserverPtr&& other) noexcept {
     watched_ = other.watched_;
@@ -69,7 +69,7 @@ class BICYCLE_EXPORT ObserverPtr {
     return *watched_;
   }
 
-  /// Returns \c true if object has no watched object, \c false otherwise.
+  /// Returns \c true if an object has no watched object, \c false otherwise.
   [[nodiscard]] bool IsEmpty() const noexcept { return watched_ == nullptr; }
 
   /// Releases the watched object and returns a mutable pointer to it.
@@ -90,6 +90,18 @@ class BICYCLE_EXPORT ObserverPtr {
   /// otherwise.
   friend bool operator!=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
     return lhs.watched_ != rhs.watched_;
+  }
+
+  friend bool operator<(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ < rhs.watched_; }
+
+  friend bool operator<=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
+    return lhs.watched_ <= rhs.watched_;
+  }
+
+  friend bool operator>(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ > rhs.watched_; }
+
+  friend bool operator>=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
+    return lhs.watched_ >= rhs.watched_;
   }
 
  private:

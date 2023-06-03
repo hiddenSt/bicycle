@@ -10,13 +10,10 @@ namespace bicycle::core::tests {
 
 class Leaker {
  public:
-  Leaker() {
-    memory_ = new std::uint8_t[10];
-  }
+  Leaker() { memory_ = new std::uint8_t[10]; }
 
-  ~Leaker() {
-    delete[] memory_;
-  }
+  ~Leaker() { delete[] memory_; }
+
  private:
   std::uint8_t* memory_ = nullptr;
 };
@@ -56,9 +53,7 @@ TEMPLATE_TEST_CASE("Result with value test", "[result]", const char*, std::uint8
 
 TEMPLATE_TEST_CASE("Result with error test", "[result]", const char*, std::uint8_t) {}
 
-TEST_CASE("Status constructor test", "[result][status][constructor]") {
-
-}
+TEST_CASE("Status constructor test", "[result][status][constructor]") {}
 
 TEST_CASE("Status assignment operator", "[result][status][assignment-op]") {}
 

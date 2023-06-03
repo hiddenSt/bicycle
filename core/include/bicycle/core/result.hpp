@@ -61,7 +61,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
   static Result Fail(Args&&... args) {
     Error error{std::forward<Args>(args)...};
 
-    return Result(std::move(error));
+    return Result{std::move(error)};
   }
 
   /// Creates the result containing a value.
@@ -73,14 +73,10 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
   }
 
   /// Constructs result from \a other. After call \a other remains as before call.
-  Result(const Result& other) {
-    CopyConstruct(other);
-  }
+  Result(const Result& other) { CopyConstruct(other); }
 
   /// Moves \a other to this result. After call \a other is empty and can't be used.
-  Result(Result&& other) noexcept {
-    MoveConstruct(std::move(other));
-  }
+  Result(Result&& other) noexcept { MoveConstruct(std::move(other)); }
 
   /// Copies \a other to this. Previously holding state is properly destroyed.
   /// \a other remains the same as before call.
@@ -103,7 +99,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
   [[nodiscard]] bool IsOk() const noexcept { return contains_ == Contains::kValue; }
 
   /// Returns \a true if the container contains an error, \a false otherwise.
-  [[nodiscard]] bool HasError() const noexcept { return contains_ != Contains::kValue; }
+  [[nodiscard]] bool HasError() const noexcept { return contains_ == Contains::kError; }
 
   [[nodiscard]] bool IsEmpty() const noexcept { return contains_ == Contains::kNothing; }
 
@@ -236,11 +232,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
   }
 
  private:
-  enum class Contains {
-    kNothing,
-    kValue,
-    kError
-  };
+  enum class Contains { kNothing, kValue, kError };
 
   detail::AlignedStorage<T, Error> storage_;
   Contains contains_;
