@@ -1,7 +1,7 @@
 #pragma once
 
 #include <bicycle/core/export.h>
-#include <bicycle/core/contract.hpp>
+#include <bicycle/core/contracts.hpp>
 
 namespace bicycle::core {
 

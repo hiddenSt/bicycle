@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(core-tests)
+project(allocator-tests)
 
 #----------------------------------------------------------------------------------------------------------------------
 # general settings and options
@@ -13,29 +13,29 @@ include(../../third_party/Catch2.cmake)
 #----------------------------------------------------------------------------------------------------------------------
 
 if (is_top_level)
-  find_package(bicycle 1.0.0 REQUIRED COMPONENTS core)
+  find_package(bicycle 1.0.0 REQUIRED COMPONENTS allocator)
 endif()
 
 #----------------------------------------------------------------------------------------------------------------------
 # sources
 #----------------------------------------------------------------------------------------------------------------------
 
-set(sources observer_ptr_tests.cpp result_tests.cpp)
+set(sources mmap_allocator_tests.cpp)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${sources})
 
 #----------------------------------------------------------------------------------------------------------------------
 # tests target
 #----------------------------------------------------------------------------------------------------------------------
 
-add_executable(core-tests)
-target_sources(core-tests PRIVATE ${sources})
-enable_sanitizers(core-tests)
+add_executable(allocator-tests)
+target_sources(allocator-tests PRIVATE ${sources})
+enable_sanitizers(allocator-tests)
 
-target_link_libraries(core-tests
+target_link_libraries(allocator-tests
   PRIVATE
     Catch2::Catch2WithMain
-    bicycle::core
+    bicycle::allocator
 )
 
 include(Catch)
-catch_discover_tests(core-tests)
+catch_discover_tests(allocator-tests)

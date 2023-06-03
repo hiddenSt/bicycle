@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(core-tests)
+project(executor-tests)
 
 #----------------------------------------------------------------------------------------------------------------------
 # general settings and options
@@ -13,29 +13,29 @@ include(../../third_party/Catch2.cmake)
 #----------------------------------------------------------------------------------------------------------------------
 
 if (is_top_level)
-  find_package(bicycle 1.0.0 REQUIRED COMPONENTS core)
+  find_package(bicycle 1.0.0 REQUIRED COMPONENTS executors)
 endif()
 
 #----------------------------------------------------------------------------------------------------------------------
 # sources
 #----------------------------------------------------------------------------------------------------------------------
 
-set(sources observer_ptr_tests.cpp result_tests.cpp)
+set(sources manual_executor_tests.cpp thread_pool_tests.cpp)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${sources})
 
 #----------------------------------------------------------------------------------------------------------------------
 # tests target
 #----------------------------------------------------------------------------------------------------------------------
 
-add_executable(core-tests)
-target_sources(core-tests PRIVATE ${sources})
-enable_sanitizers(core-tests)
+add_executable(executors-tests)
+target_sources(executors-tests PRIVATE ${sources})
+enable_sanitizers(executors-tests)
 
-target_link_libraries(core-tests
-  PRIVATE
-    Catch2::Catch2WithMain
-    bicycle::core
-)
+target_link_libraries(executors-tests
+        PRIVATE
+        Catch2::Catch2WithMain
+        bicycle::executors
+        )
 
 include(Catch)
-catch_discover_tests(core-tests)
+catch_discover_tests(executors-tests)
