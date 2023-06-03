@@ -2,7 +2,7 @@ add_library(core)
 add_library(bicycle::core ALIAS core)
 
 #----------------------------------------------------------------------------------------------------------------------
-# sources
+# targets and sources
 #----------------------------------------------------------------------------------------------------------------------
 
 include(GenerateExportHeader)
@@ -23,27 +23,23 @@ target_sources(core
     include/bicycle/core/contracts.hpp
     include/bicycle/core/result.hpp
     include/bicycle/core/observer_ptr.hpp
-    src/contracts.cpp
-)
+    src/contracts.cpp)
 
 target_compile_definitions(core PUBLIC "$<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:BICYCLE_STATIC_DEFINE>")
 
 target_include_directories(core
   PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-)
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>")
 
 set_target_properties(core PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}
-  VERSION ${PROJECT_VERSION}
-)
+  VERSION ${PROJECT_VERSION})
 
 set_target_warnings(core
   "${BICYCLE_WARNINGS_AS_ERRORS}"
   "${BICYCLE_CLANG_WARNINGS}"
-  "${BICYCLE_GCC_WARNINGS}"
-)
+  "${BICYCLE_GCC_WARNINGS}")
 
 #----------------------------------------------------------------------------------------------------------------------
 # install set
@@ -54,8 +50,7 @@ if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     RUNTIME COMPONENT bicycle
     LIBRARY COMPONENT bicycle NAMELINK_COMPONENT bicycle-dev
-    ARCHIVE COMPONENT bicycle-dev
-  )
+    ARCHIVE COMPONENT bicycle-dev)
 
   set(targets_file "bicycle-core-shared-targets.cmake")
 
@@ -67,13 +62,11 @@ if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
     DESTINATION ${BICYCLE_INSTALL_CMAKEDIR}
     NAMESPACE bicycle::
     FILE "${targets_file}"
-    COMPONENT bicycle-dev
-  )
+    COMPONENT bicycle-dev)
 
   install(DIRECTORY
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    TYPE INCLUDE
-  )
+    TYPE INCLUDE)
 endif()
 
 enable_sanitizers(core)

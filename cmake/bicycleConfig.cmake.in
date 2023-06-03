@@ -19,7 +19,8 @@ endif()
 if (${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
   set(components ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
 else()
-  set(components core allocator executors future)
+  # Here goes list of available components
+  set(components core)
 endif()
 
 foreach(comp IN LISTS components)

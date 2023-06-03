@@ -5,11 +5,16 @@ project(bicycle
         DESCRIPTION "Library contains common utilities for my pet projects"
         LANGUAGES CXX)
 
+#---------------------------------------------------------------------------------------------------
+# General settings and options
+#---------------------------------------------------------------------------------------------------
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 include(GNUInstallDirs)
 include(cmake/CompilerWarnings.cmake)
 include(cmake/Utils.cmake)
+include(cmake/Sanitizers.cmake)
 
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" is_top_level)
 
@@ -41,9 +46,13 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 # To be able to use std::format
 # add_compile_options(-stdlib=libc++)
 
-include(CMakePackageConfigHelpers)
+#---------------------------------------------------------------------------------------------------
+# Project-wise install set
+#---------------------------------------------------------------------------------------------------
 
 if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
+  include(CMakePackageConfigHelpers)
+
   configure_package_config_file(
     cmake/bicycleConfig.cmake.in
     BicycleConfig.cmake
@@ -63,10 +72,8 @@ if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
   )
 endif()
 
-include(cmake/Sanitizers.cmake)
-include(CTest)
-
 if (BUILD_TESTING)
+  include(CTest)
   include(third_party/Catch2.cmake)
 endif()
 
