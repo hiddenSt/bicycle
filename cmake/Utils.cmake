@@ -1,0 +1,5 @@
+macro(set_if_undefined variable)
+  if (NOT DEFINED "${variablevariable}")
+    set("${variable}" ${ARGN})
+  endif()
+endmacro()

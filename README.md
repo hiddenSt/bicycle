@@ -1,2 +1,2 @@
 # bicycle
-Library for common utilities for petprojects
+Library for common utilities for pet projects. 
