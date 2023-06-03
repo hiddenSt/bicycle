@@ -45,7 +45,7 @@ include(CMakePackageConfigHelpers)
 
 if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
   configure_package_config_file(
-    cmake/BicycleConfig.cmake.in
+    cmake/bicycleConfig.cmake.in
     BicycleConfig.cmake
     INSTALL_DESTINATION "${BICYCLE_INSTALL_CMAKEDIR}"
   )
@@ -71,11 +71,6 @@ if (BUILD_TESTING)
 endif()
 
 add_subdirectory(core)
-add_subdirectory(allocator)
-add_subdirectory(context)
-add_subdirectory(container)
-add_subdirectory(executors)
-add_subdirectory(future)
 add_subdirectory(docs)
 
 
