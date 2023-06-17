@@ -43,6 +43,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
+if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake")
+  include(${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake)
+endif()
+
 # To be able to use std::format
 # add_compile_options(-stdlib=libc++)
 

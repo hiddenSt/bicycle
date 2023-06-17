@@ -5,7 +5,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 
 class BicycleRecipe(ConanFile):
     name = 'bicycle'
-    version = '1.0.0'
+    version = '0.0.1'
     license = 'MIT License'
     author = 'Viktor Repin'
     url = 'https://github.com/hiddenSt/bicycle'
