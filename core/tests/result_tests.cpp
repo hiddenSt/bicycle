@@ -8,16 +8,6 @@
 
 namespace bicycle::core::tests {
 
-class Leaker {
- public:
-  Leaker() { memory_ = new std::uint8_t[10]; }
-
-  ~Leaker() { delete[] memory_; }
-
- private:
-  std::uint8_t* memory_ = nullptr;
-};
-
 TEMPLATE_TEST_CASE("Result constructors test", "[result][constructor]", const char*, std::uint8_t) {
   SECTION("Ok") {
     auto result = Result<TestType>::Ok();
@@ -35,7 +25,7 @@ TEMPLATE_TEST_CASE("Result constructors test", "[result][constructor]", const ch
   }
 }
 
-TEMPLATE_TEST_CASE("Result assignment operators test", "[result][assignment-op]", const char*, std::uint8_t) {
+TEMPLATE_TEST_CASE("Result assignment operators", "[result][assignment-op]", const char*, std::uint8_t) {
   SECTION("Copy-assignment operator test", "[copy]") {
     auto ok_result = Result<TestType>::Ok();
     auto failed_result = Result<TestType>::Fail();
@@ -46,19 +36,13 @@ TEMPLATE_TEST_CASE("Result assignment operators test", "[result][assignment-op]"
     CHECK(failed_result.HasError());
   }
 
-  SECTION("Move-assignment operator test", "[move]") {}
+  SECTION("Move-assignment operator test", "[move]") {
+    auto ok_result = Result<TestType>::Ok();
+    auto failed_result = Result<TestType>::Fail();
+    failed_result = std::move(ok_result);
+    CHECK(failed_result.IsOk());
+    CHECK(ok_result.IsEmpty());
+  }
 }
-
-TEMPLATE_TEST_CASE("Result with value test", "[result]", const char*, std::uint8_t) {}
-
-TEMPLATE_TEST_CASE("Result with error test", "[result]", const char*, std::uint8_t) {}
-
-TEST_CASE("Status constructor test", "[result][status][constructor]") {}
-
-TEST_CASE("Status assignment operator", "[result][status][assignment-op]") {}
-
-TEST_CASE("Status with error", "[result][status]") {}
-
-TEST_CASE("Status", "[result][status]") {}
 
 }  // namespace bicycle::core::tests
