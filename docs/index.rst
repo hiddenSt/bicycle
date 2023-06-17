@@ -26,3 +26,5 @@ The purpose of this document is to provide you with basic concepts of `bicycle` 
 
 .. doxygenclass:: bicycle::core::ObserverPtr
    :members:
+
+.. doxygenfile:: core/include/bicycle/core/contracts.hpp
