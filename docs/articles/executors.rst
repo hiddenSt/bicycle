@@ -4,6 +4,7 @@ Executors
 This documents describes *executor* abstraction. The main API is function ``Submit``
 
 .. code:: c++
+
    void Submit(Task* task);
 
 This function provide *fire-and-forget*-style interface. It accepts a single nullary invocable

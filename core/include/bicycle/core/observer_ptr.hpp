@@ -1,13 +1,12 @@
 #pragma once
 
-#include <bicycle/core/export.h>
 #include <bicycle/core/contracts.hpp>
 
 namespace bicycle::core {
 
 /// Non-owning wrapper around raw pointer.
 template <typename T>
-class BICYCLE_EXPORT ObserverPtr {
+class ObserverPtr {
  public:
   /// Constructs observer with \c nullptr watched.
   ObserverPtr() noexcept = default;
@@ -86,20 +85,23 @@ class BICYCLE_EXPORT ObserverPtr {
     return lhs.watched_ == rhs.watched_;
   }
 
-  /// Returns \c true if the \a lhs watched object pointer is not equal to the  \a rhs watched object pointer, \c false
-  /// otherwise.
+  /// Returns \c true if the \a lhs watched pointer is not equal to the \a rhs watched pointer, \c false otherwise.
   friend bool operator!=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
     return lhs.watched_ != rhs.watched_;
   }
 
+  /// Returns \c true if the \a lhs watched pointer is less than the \a rhs watched pointer, \c false otherwise.
   friend bool operator<(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ < rhs.watched_; }
 
+  /// Returns \c true if the \a lhs watched pointer is less or equal to the \a rhs watched pointer, \c false otherwise.
   friend bool operator<=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
     return lhs.watched_ <= rhs.watched_;
   }
 
+  /// Returns \c true if the \a lhs watched pointer is greater than the \a rhs watched pointer, \c false otherwise.
   friend bool operator>(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept { return lhs.watched_ > rhs.watched_; }
 
+  /// Returns \c true if the \a lhs watched pointer is greater or equal to the \a rhs watched pointer, \c false otherwise.
   friend bool operator>=(const ObserverPtr& lhs, const ObserverPtr& rhs) noexcept {
     return lhs.watched_ >= rhs.watched_;
   }

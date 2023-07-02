@@ -8,6 +8,9 @@ simple C++ library that works only in Linux
    :maxdepth: 2
    :caption: Contents:
 
+   articles/core
+   articles/error_model
+   articles/executors
 
 
 Indices and tables
@@ -16,15 +19,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-Docs
-====
 
-The purpose of this document is to provide you with basic concepts of `bicycle` library.
 
-.. doxygenclass:: bicycle::core::Result
-   :members:
-
-.. doxygenclass:: bicycle::core::ObserverPtr
-   :members:
-
-.. doxygenfile:: core/include/bicycle/core/contracts.hpp

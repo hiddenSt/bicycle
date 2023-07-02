@@ -39,3 +39,6 @@ cmake-build-*
 *.exe
 *.out
 *.app
+
+# Clangd cache
+.cache

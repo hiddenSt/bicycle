@@ -23,7 +23,7 @@ option(BICYCLE_BUILD_DOCS "Build bicycle documentation" OFF)
 option(BICYCLE_INSTALL "Generate target for installing bicycle" ${is_top_level})
 
 set_if_undefined(
-  ${BICYCLE_INSTAL_CMAKEDIR} "${CMAKE_INSTALL_LIBDIR}/cmake/bicycle"
+  ${BICYCLE_INSTALL_CMAKEDIR} "${CMAKE_INSTALL_LIBDIR}/cmake/bicycle"
   CACHE STRING  "Install path for bicycle package-related CMake files"
 )
 
@@ -59,29 +59,40 @@ if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
 
   configure_package_config_file(
     cmake/bicycleConfig.cmake.in
-    BicycleConfig.cmake
+    bicycleConfig.cmake
     INSTALL_DESTINATION "${BICYCLE_INSTALL_CMAKEDIR}"
   )
 
   write_basic_package_version_file(
-    BicycleConfigVersion.cmake
+    bicycleConfigVersion.cmake
     COMPATIBILITY SameMajorVersion
   )
 
   install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/BicycleConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/BicycleConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/bicycleConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/bicycleConfigVersion.cmake"
     COMPONENT bicycle-dev
     DESTINATION "${BICYCLE_INSTALL_CMAKEDIR}"
   )
 endif()
 
-if (BUILD_TESTING)
+if (BICYCLE_BUILD_TESTS)
   include(CTest)
   include(third_party/Catch2.cmake)
 endif()
 
+#---------------------------------------------------------------------------------------------------
+# Library components
+#---------------------------------------------------------------------------------------------------
+
 add_subdirectory(core)
-add_subdirectory(docs)
+
+#---------------------------------------------------------------------------------------------------
+# Library docs
+#---------------------------------------------------------------------------------------------------
+
+if (BICYCLE_BUILD_DOCS)
+  add_subdirectory(docs)
+endif()
 
 

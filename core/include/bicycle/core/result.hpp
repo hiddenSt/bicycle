@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bicycle/core/export.h>
 #include <bicycle/core/contracts.hpp>
 
 #include <cstddef>
@@ -15,14 +14,12 @@ namespace detail {
 template <typename... Ts>
 class AlignedStorage {
  public:
-  // TODO: check if T is in Ts
   template <typename T, typename... Args>
   void Construct(Args&&... args) {
     auto ptr = reinterpret_cast<T*>(&storage_[0]);
     ::new (ptr) T(std::forward<Args>(args)...);
   }
 
-  // TODO: check if T is in Ts
   template <typename T>
   void Destroy() {
     auto ptr = reinterpret_cast<T*>(&storage_[0]);
@@ -48,15 +45,14 @@ class AlignedStorage {
 }  // namespace detail
 
 /// \brief Container which represents the result of the operation call.
-/// It either holds a value or an error. If the container holds the value, then it methods is TODO:
-/// Inspired by [this article]()
+/// It either holds a value or an error.
 template <typename T, typename Error = std::error_code>
-class [[nodiscard]] BICYCLE_EXPORT Result {
+class [[nodiscard]] Result {
  public:
   static_assert(!std::is_reference_v<T>, "T can not be a reference");
   static_assert(!std::is_reference_v<Error>, "Error can not be a reference");
 
-  /// Creates the result containing an error.
+  /// Creates a result containing an error.
   template <typename... Args>
   static Result Fail(Args&&... args) {
     Error error{std::forward<Args>(args)...};
@@ -64,7 +60,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
     return Result{std::move(error)};
   }
 
-  /// Creates the result containing a value.
+  /// Creates a result containing a value.
   template <typename... Args>
   static Result Ok(Args&&... args) {
     T value{std::forward<Args>(args)...};
@@ -72,10 +68,10 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
     return Result{std::move(value)};
   }
 
-  /// Constructs result from \a other. After call \a other remains as before call.
+  /// Constructs a result from \a other. After call \a other remains as before call.
   Result(const Result& other) { CopyConstruct(other); }
 
-  /// Moves \a other to this result. After call \a other is empty and can't be used.
+  /// Moves \a other to \a this result. After call \a other is empty and can not be used.
   Result(Result&& other) noexcept { MoveConstruct(std::move(other)); }
 
   /// Copies \a other to this. Previously holding state is properly destroyed.
@@ -240,30 +236,38 @@ class [[nodiscard]] BICYCLE_EXPORT Result {
 
 /// Partial specialisation of Result which does not have to contain a value.
 template <typename Error>
-class [[nodiscard]] BICYCLE_EXPORT Result<void, Error> {
+class [[nodiscard]] Result<void, Error> {
  public:
+
+  /// Constructs a result containing an error forward constructed from \a args.
   template <typename... Args>
   static Result Fail(Args&&... args) {
     Error error{std::forward<Args>(args)...};
     return Result(std::move(error));
   }
 
+  /// Creates a result without an error.
   static Result Ok() { return Result{}; }
 
+  /// Returns \c true if the result contains no error, \c false otherwise.
   [[nodiscard]] bool IsOk() const noexcept { return !has_error_; }
 
+  /// Returns \c true if the result contains an error, \c false otherwise.
   [[nodiscard]] bool HasError() const noexcept { return has_error_; }
 
+  /// Returns an immutable reference to the result's error.
   const Error& GetError() const noexcept {
     BICYCLE_EXPECTS(HasError());
     return storage_.template GetAs<Error>();
   }
 
+  /// Returns a mutable reference to the result's error.
   Error& GetError() noexcept {
     BICYCLE_EXPECTS(HasError());
     return storage_.template GetAs<Error>();
   }
 
+  /// TODO: customize exception type.
   void ThrowIfError() const {
     if (HasError()) {
       // TODO:
@@ -271,6 +275,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result<void, Error> {
     }
   }
 
+  /// Ignores the result.
   void Ignore() const noexcept {
     // Does nothing.
   }
@@ -288,6 +293,7 @@ class [[nodiscard]] BICYCLE_EXPORT Result<void, Error> {
   bool has_error_{false};
 };
 
+/// Alias for better readability.
 template <typename Error>
 using Status = Result<void, Error>;
 

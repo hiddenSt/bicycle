@@ -66,7 +66,8 @@ if (BICYCLE_INSTALL AND NOT CMAKE_SKIP_INSTALL_RULES)
 
   install(DIRECTORY
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    TYPE INCLUDE)
+    TYPE INCLUDE
+    COMPONENT bicycle-dev)
 endif()
 
 enable_sanitizers(core)
@@ -75,6 +76,6 @@ enable_sanitizers(core)
 # tests
 #----------------------------------------------------------------------------------------------------------------------
 
-if (BUILD_TESTING)
+if (BICYCLE_BUILD_TESTS)
   add_subdirectory(tests)
 endif()

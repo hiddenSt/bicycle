@@ -19,7 +19,6 @@ endif()
 if (${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
   set(components ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
 else()
-  # Here goes list of available components
   set(components core)
 endif()
 

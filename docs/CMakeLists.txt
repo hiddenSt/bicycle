@@ -54,4 +54,5 @@ add_custom_command(OUTPUT ${SPHINX_INDEX_FILE}
 add_custom_target(docs ALL DEPENDS ${SPHINX_INDEX_FILE})
 
 install(DIRECTORY ${SPHINX_BUILD}
-        DESTINATION ${CMAKE_INSTALL_DOCDIR})
+        DESTINATION ${CMAKE_INSTALL_DOCDIR}
+        COMPONENT bicycle-docs)
